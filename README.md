@@ -91,6 +91,12 @@ When you’re ready to land you can set the mode to RTL (or LAND):
 - 🌐 **Mission Planner** : [Installing Mission Planner](https://ardupilot.org/planner/docs/mission-planner-installation.html)
 
 
+Petit note, en cas d'avoir besoin de réinstaller WSL2 et Ubuntu, utiliser cette commande:
+
+   ```bash
+   wsl --unregister Ubuntu-22.04
+   ```
+
 ---
 
 ✨ **Bon courage pour l'installation !** 🚀
