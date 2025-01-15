@@ -77,8 +77,20 @@ When you’re ready to land you can set the mode to RTL (or LAND):
    mode rtl
    ```
 
+### 👉 En cas de problèmes:
 
+Voici de commande utile dans PowerShell avec Bash
 
+En cas où Gazebo et la Simulation ne boot plus
+   ```bash
+   wsl --shutdown
+   ```
+
+En cas d'avoir besoin de réinstaller WSL2 et Ubuntu, utiliser cette commande:
+
+   ```bash
+   wsl --unregister Ubuntu-22.04
+   ```
 
 ## 🔗 Liens Utiles
 
@@ -89,13 +101,6 @@ When you’re ready to land you can set the mode to RTL (or LAND):
 - 🌐 **Liste de tous les paramètres d'ardupilot** : [Complete Parameter List](https://ardupilot.org/dev/docs/ros2-sitl.html)
 - 🌐 **Docs Gazebo** : [Gazebo Binary Installation](https://gazebosim.org/docs/harmonic/install_ubuntu/)
 - 🌐 **Mission Planner** : [Installing Mission Planner](https://ardupilot.org/planner/docs/mission-planner-installation.html)
-
-
-Petit note, en cas d'avoir besoin de réinstaller WSL2 et Ubuntu, utiliser cette commande:
-
-   ```bash
-   wsl --unregister Ubuntu-22.04
-   ```
 
 ---
 
