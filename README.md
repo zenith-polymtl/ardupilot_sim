@@ -1,1 +1,96 @@
-# ardupilot_sim
+# Simulation de ardupilot
+
+Ce guide explique étape par étape comment installer les programmes requis pour notre projet : **WSL**, **ROS 2 Humble**, **QGroundControl** et **PX4**. Des placeholders sont laissés pour insérer des images et des liens vers les sites officiels.
+
+
+## 🖥️ Installation de WSL (Windows Subsystem for Linux)
+
+### 👉 Étape 1 : Activer WSL
+1. **Ouvrir un terminal** (PowerShell) et exécuter la commande suivante :
+   ```bash
+   wsl --install ubuntu-22.04
+   wsl --update
+   ```
+
+   ![Placeholder Image: Installation WSL](/docs/images/wsl-install.png)
+
+## 🖥️ Installation de ROS2, Gazebo, Ardupilot et SITL pour Ardupilot 
+
+### 👉 Étape 2 : Installation du script
+
+   ```bash
+   git clone https://github.com/zenith-polymtl/ardupilot_sim.git
+   cd ardupilot_sim
+   chmod +x install_ardupilot_ros2.sh
+   ./install_ardupilot_ros2.sh
+   ```
+
+## 🖥️ Utilisation de ROS2, Gazebo, Ardupilot et SITL pour Ardupilot 
+
+### 👉 Étape 3 : Lancer une simulation
+
+   ```bash
+   cd ardu_ws
+   source install/setup.bash
+   ros2 launch ardupilot_gz_bringup iris_runway.launch.py
+   ```
+
+### 👉 Étape 4 : Connection via Mavproxy
+
+   ```bash
+   mavproxy.py --console --map --aircraft test --master=:14550
+   ```
+
+### 👉 Exemple de commandes utiles
+
+   ```bash
+   source ~/ardu_ws/install/setup.bash
+   # See the node appear in the ROS graph
+   ros2 node list
+   # See which topics are exposed by the node
+   ros2 node info /ardupilot_dds
+   # Echo a topic published from ArduPilot
+   ros2 topic echo /ap/geopose/filtered
+   ```
+
+### 👉 Exemple de contrôle du drone via Mavproxy
+
+For example, change to GUIDED mode, arm the throttle, and then takeoff:
+
+   ```bash
+   mode guided
+   arm throttle
+   takeoff 40
+   ```
+
+Change to CIRCLE mode and set the radius to 2000cm
+
+   ```bash
+   rc 3 1500
+   mode circle
+   param set circle_radius 2000
+   ```
+
+When you’re ready to land you can set the mode to RTL (or LAND):
+
+   ```bash
+   mode rtl
+   ```
+
+
+
+
+## 🔗 Liens Utiles
+
+- 🌐 **ROS 2 Humble Installation** : [Site officiel ROS 2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html)
+- 🌐 **Docs Ardupilot Development** : [ArduPilot Development Site](https://ardupilot.org/dev/index.html)
+- 🌐 **Docs Ardupilot Gazebo** : [ROS 2 with Gazebo](https://ardupilot.org/dev/docs/ros2-gazebo.html)
+- 🌐 **Docs Ardupilot ROS2** : [ROS 2 with SITL](hhttps://ardupilot.org/plane/docs/parameters.html)
+- 🌐 **Liste de tous les paramètres d'ardupilot** : [Complete Parameter List](https://ardupilot.org/dev/docs/ros2-sitl.html)
+- 🌐 **Docs Gazebo** : [Gazebo Binary Installation](https://gazebosim.org/docs/harmonic/install_ubuntu/)
+- 🌐 **Mission Planner** : [Installing Mission Planner](https://ardupilot.org/planner/docs/mission-planner-installation.html)
+
+
+---
+
+✨ **Bon courage pour l'installation !** 🚀
