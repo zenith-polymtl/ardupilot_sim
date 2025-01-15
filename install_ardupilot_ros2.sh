@@ -132,7 +132,7 @@ print_section "Downloading ardupilot"
 cd "$WORKSPACE_DIR/src/ardupilot"
 Tools/environment_install/install-prereqs-ubuntu.sh -y
 export PATH="$PATH:$HOME/.local/bin"
-./waf configure --board sitl --enable-dds
+./waf configure --byoard sitl --enable-dds
 ./waf copter
 check_status "ArduPilot copter install"
 
@@ -178,7 +178,7 @@ setup_environment
 colcon build --packages-up-to ardupilot_gz_bringup 2>&1 | tee colcon_build_gz.log
 check_status "Final build"
 
-sudo apt autoremove
+sudo apt autoremove -y
 print_section "Installation Complete!"
 echo "Please check $LOG_FILE for detailed logs"
 echo "Please source your ~/.bashrc file or restart your terminal"
