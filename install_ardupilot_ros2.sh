@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Set base directory
+# Set base directory and workspace
 BASE_DIR="$(pwd)"
 WORKSPACE_DIR="$BASE_DIR/ardu_ws"
 
@@ -22,6 +22,19 @@ check_status() {
     else
         echo "✗ Error: $1 failed"
         exit 1
+    fi
+}
+
+# Function to setup environment variables
+setup_environment() {
+    # ROS2 environment
+    export ROS_DISTRO=humble
+    export ROS_ROOT=/opt/ros/humble
+    source "$ROS_ROOT/setup.bash" || true
+    
+    # Update PATH for current session
+    if [[ ":$PATH:" != *":$WORKSPACE_DIR/Micro-XRCE-DDS-Gen/scripts:"* ]]; then
+        export PATH="$PATH:$WORKSPACE_DIR/Micro-XRCE-DDS-Gen/scripts"
     fi
 }
 
@@ -76,7 +89,7 @@ check_status "Python dependencies installation"
 
 # Set up ROS2 environment
 echo "source /opt/ros/humble/setup.bash" >> "$HOME/.bashrc"
-source "$HOME/.bashrc"
+setup_environment
 
 # Set up ArduPilot workspace
 print_section "Setting up ArduPilot Workspace"
@@ -89,13 +102,13 @@ check_status "Workspace initialization"
 sudo apt update
 sudo rosdep init
 rosdep update
-source /opt/ros/humble/setup.bash
 rosdep install --from-paths src --ignore-src -r -y
 check_status "rosdep initialization"
 
 # Install Java and Micro-XRCE-DDS-Gen
 print_section "Installing Micro-XRCE-DDS-Gen"
 sudo apt install default-jre -y
+cd "$WORKSPACE_DIR"
 git clone --recurse-submodules https://github.com/ardupilot/Micro-XRCE-DDS-Gen.git
 cd Micro-XRCE-DDS-Gen
 ./gradlew assemble
@@ -103,22 +116,22 @@ check_status "Micro-XRCE-DDS-Gen installation"
 
 # Add to PATH and make sure it's available immediately
 echo "export PATH=\$PATH:$WORKSPACE_DIR/Micro-XRCE-DDS-Gen/scripts" >> "$HOME/.bashrc"
-sleep 1 &
-wait
-source "$HOME/.bashrc"
+export PATH="$PATH:$WORKSPACE_DIR/Micro-XRCE-DDS-Gen/scripts"
 
 # Verify microxrceddsgen is available
 if command -v microxrceddsgen >/dev/null 2>&1; then
     echo "✓ microxrceddsgen is successfully installed and in PATH"
 else
     echo "✗ Error: microxrceddsgen is not available in PATH"
-    source "$HOME/.bashrc"
+    echo "Creating symbolic link..."
+    sudo ln -sf "$WORKSPACE_DIR/Micro-XRCE-DDS-Gen/scripts/microxrceddsgen" /usr/local/bin/microxrceddsgen
+    chmod +x "$WORKSPACE_DIR/Micro-XRCE-DDS-Gen/scripts/microxrceddsgen"
 fi
 
 print_section "Downloading ardupilot"
 cd "$WORKSPACE_DIR/src/ardupilot"
 Tools/environment_install/install-prereqs-ubuntu.sh -y
-source "$HOME/.profile"
+export PATH="$PATH:$HOME/.local/bin"
 ./waf configure --board sitl --enable-dds
 ./waf copter
 check_status "ArduPilot copter install"
@@ -126,6 +139,7 @@ check_status "ArduPilot copter install"
 # Build ArduPilot packages
 print_section "Building ArduPilot Packages"
 cd "$WORKSPACE_DIR"
+setup_environment
 colcon build --packages-up-to ardupilot_dds_tests --event-handlers=console_cohesion+ 2>&1 | tee colcon_build_dds.log
 check_status "ArduPilot DDS build"
 
@@ -142,6 +156,7 @@ check_status "Gazebo installation"
 # Build SITL
 print_section "Building SITL"
 cd "$WORKSPACE_DIR"
+setup_environment
 colcon build --packages-up-to ardupilot_sitl 2>&1 | tee colcon_build_sitl.log
 check_status "SITL build"
 
@@ -150,7 +165,7 @@ print_section "Setting up Gazebo Integration"
 cd "$WORKSPACE_DIR"
 vcs import --input https://raw.githubusercontent.com/ArduPilot/ardupilot_gz/main/ros2_gz.repos --recursive src
 export GZ_VERSION=harmonic
-source /opt/ros/humble/setup.bash
+setup_environment
 sudo apt update
 rosdep update
 rosdep install --from-paths src --ignore-src -r -y
@@ -159,8 +174,11 @@ check_status "Gazebo integration setup"
 # Final build
 print_section "Final Build"
 cd "$WORKSPACE_DIR"
+setup_environment
 colcon build --packages-up-to ardupilot_gz_bringup 2>&1 | tee colcon_build_gz.log
 check_status "Final build"
+
 sudo apt autoremove
 print_section "Installation Complete!"
 echo "Please check $LOG_FILE for detailed logs"
+echo "Please source your ~/.bashrc file or restart your terminal"
