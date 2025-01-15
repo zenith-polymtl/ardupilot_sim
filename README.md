@@ -1,6 +1,6 @@
-# Simulation de ardupilot
+# Simulation avec Ardupilot, Gazebo et ROS2
 
-Ce guide explique étape par étape comment installer les programmes requis pour notre projet : **WSL**, **ROS 2 Humble**, **QGroundControl** et **PX4**. Des placeholders sont laissés pour insérer des images et des liens vers les sites officiels.
+Ce guide explique étape par étape comment installer les programmes requis pour notre projet : **WSL**, **ROS 2 Humble**, **Gazebo**, **Mission Planner** et **Ardupilot**. Des placeholders sont laissés pour insérer des images et des liens vers les sites officiels.
 
 
 ## 🖥️ Installation de WSL (Windows Subsystem for Linux)
