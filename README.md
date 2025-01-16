@@ -8,7 +8,7 @@ Ce guide explique étape par étape comment installer les programmes requis pour
 ### 👉 Étape 1 : Activer WSL
 1. **Ouvrir un terminal** (PowerShell) et exécuter la commande suivante :
    ```bash
-   wsl --install ubuntu-22.04
+   wsl --install -d ubuntu-22.04
    wsl --update
    ```
 
