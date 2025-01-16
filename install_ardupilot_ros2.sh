@@ -132,7 +132,7 @@ print_section "Downloading ardupilot"
 cd "$WORKSPACE_DIR/src/ardupilot"
 Tools/environment_install/install-prereqs-ubuntu.sh -y
 export PATH="$PATH:$HOME/.local/bin"
-./waf configure --byoard sitl --enable-dds
+./waf configure --board sitl --enable-dds
 ./waf copter
 check_status "ArduPilot copter install"
 
