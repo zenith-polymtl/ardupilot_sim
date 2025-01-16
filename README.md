@@ -90,7 +90,8 @@ When you’re ready to land you can set the mode to RTL (or LAND):
    mavproxy.py --console --map --copter test --master=:14550 --out=udp:[ip trouvé à l'étape précédente]:14550
    ```
 3. Connectez-vous avec Mission Planner via UDP et le port 14550
-![Connection à Mission Planner](https://ardupilot.org/dev/_images/MissionPlanner_Connect_UDP.jpg)
+
+   ![Connection à Mission Planner](https://ardupilot.org/dev/_images/MissionPlanner_Connect_UDP.jpg)
 
 
 ### 👉 En cas de problèmes:
