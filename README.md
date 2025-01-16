@@ -77,6 +77,20 @@ When you’re ready to land you can set the mode to RTL (or LAND):
    mode rtl
    ```
 
+### 👉 Exemple de contrôle du drone via Mission Planner sur Windows
+1. Aller chercher l'IP de la sortie de la machine virtuel WSL2
+   Sur Powershell:
+   ```powershell
+   ipconfig
+   ```
+   Vous devez trouver l'address IPv4 pour la carte réseau: Carte Ethernet vEthernet (WSL (Hyper-V firewall)) et prenez-là en note
+   
+2. Lancer Mavproxy comme à l'étape 4:
+   ```bash
+   mavproxy.py --console --map --copter test --master=:14550 --out=udp:[ip trouvé à l'étape précédente]:14550
+   ```
+3. Connectez-vous avec Mission Planner via UDP et le port 14550
+
 ### 👉 En cas de problèmes:
 
 Voici de commande utile dans PowerShell avec Bash
