@@ -129,7 +129,6 @@ if [ "$full_installation" = true ]; then
         python3-flake8-docstrings \
         python3-pip \
         python3-pytest-cov \
-        ros-dev-tools \
         python3-flake8-blind-except \
         python3-flake8-builtins \
         python3-flake8-class-newline \
@@ -210,8 +209,7 @@ if [ "$full_installation" = true ]; then
     # Build SITL
     print_section "Building SITL"
     cd "$WORKSPACE_DIR"
-    setup_environment
-    colcon build --packages-up-to ardupilot_sitl 2>&1 | tee colcon_build_sitl.log
+    do_colcon_build "ardupilot_sitl" "colcon_build_sitl.log"
     check_status "SITL build"
 
     # Set up Gazebo integration
@@ -227,30 +225,22 @@ if [ "$full_installation" = true ]; then
 
     # Final build
     print_section "Final Build"
-    cd "$WORKSPACE_DIR"
-    setup_environment
-    colcon build --packages-up-to ardupilot_gz_bringup 2>&1 | tee colcon_build_gz.log
-    check_status "Final build"
-
-    sudo apt autoremove -y
-    print_section "Installation Complete!"
-    echo "Please check $LOG_FILE for detailed logs"
-    echo "Please source your ~/.bashrc file or restart your terminal"
 fi
 
 # Colcon build steps (run regardless of installation choice)
 cd "$WORKSPACE_DIR"
 setup_environment
 
-# Build ArduPilot packages
-do_colcon_build "ardupilot_dds_tests" "colcon_build_dds.log"
+# Build ArduPilot packages (to be added later if necessary)
+# do_colcon_build "ardupilot_dds_tests" "colcon_build_dds.log"
 
 # Build SITL
-do_colcon_build "ardupilot_sitl" "colcon_build_sitl.log"
+# do_colcon_build "ardupilot_sitl" "colcon_build_sitl.log"
 
 # Build Gazebo integration
 do_colcon_build "ardupilot_gz_bringup" "colcon_build_gz.log"
 
+sudo apt autoremove -y
 print_section "Build Process Complete!"
 echo "Please check the following log files for detailed build information:"
 echo "- $WORKSPACE_DIR/colcon_build_dds.log"
