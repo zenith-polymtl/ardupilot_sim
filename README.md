@@ -101,14 +101,14 @@ When you’re ready to land you can set the mode to RTL (or LAND):
 
 ### 👉 En cas de problèmes:
 
-Voici de commande utile dans PowerShell avec Bash
+Voici de commande utile dans PowerShell
 
-En cas où Gazebo et la Simulation ne boot plus
+En cas où Gazebo et la Simulation ne boot plus, il est recommandé de redémarrer WSL2, pour ce faire, executé cette commande, puis relancer VSCode ou Terminal:
    ```bash
    wsl --shutdown
    ```
 
-En cas d'avoir besoin de réinstaller WSL2 et Ubuntu, utiliser cette commande:
+En cas d'avoir besoin de réinstaller WSL2 et Ubuntu, utiliser cette commande pour déinstaller Ubuntu 22.04, puis réinstaller grâce au commande de l'étape 1:
 
    ```bash
    wsl --unregister Ubuntu-22.04
