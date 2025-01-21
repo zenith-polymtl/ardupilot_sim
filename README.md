@@ -132,7 +132,7 @@ En cas d'avoir besoin de réinstaller WSL2 et Ubuntu, utiliser cette commande po
 - 🌐 **Liste de tous les paramètres d'ardupilot** : [Complete Parameter List](https://ardupilot.org/dev/docs/ros2-sitl.html)
 - 🌐 **Docs Gazebo** : [Gazebo Binary Installation](https://gazebosim.org/docs/harmonic/install_ubuntu/)
 - 🌐 **Mission Planner** : [Installing Mission Planner](https://ardupilot.org/planner/docs/mission-planner-installation.html)
-- 🌐 **Commandes Mavlink** : (https://ardupilot.org/dev/docs/mavlink-commands.html)
+- 🌐 **Commandes Mavlink** : https://ardupilot.org/dev/docs/mavlink-commands.html
 - 🌐 **Docs Pymavlink** : https://mavlink.io/en/mavgen_python/
 ---
 
