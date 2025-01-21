@@ -57,8 +57,10 @@ En cas de manque de mémoire lors de l'execution du script (si votre ordinateur 
    ```
 
 ### 👉 Exemple de contrôle du drone via Mavproxy
+Cette exemple va vous permette de voir votre quadcopter décoller, faire des cercles et revenir à son point de départ.
+Vous devez être connecter à Mavlink pour executer le commande (voir Étape 4)
 
-For example, change to GUIDED mode, arm the throttle, and then takeoff:
+Change to GUIDED mode, arm the throttle, and then takeoff:
 
    ```bash
    mode guided
@@ -86,7 +88,7 @@ When you’re ready to land you can set the mode to RTL (or LAND):
    ```powershell
    ipconfig
    ```
-   Vous devez trouver l'address IPv4 pour la carte réseau: Carte Ethernet vEthernet (WSL (Hyper-V firewall)) et prenez-là en note
+   Vous devez trouver l'address IPv4 pour la carte réseau: *Carte Ethernet vEthernet (WSL (Hyper-V firewall))* et prenez-là en note
    
 2. Lancer Mavproxy comme à l'étape 4:
    ```bash
