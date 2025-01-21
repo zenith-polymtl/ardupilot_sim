@@ -45,14 +45,22 @@ En cas de manque de mémoire lors de l'execution du script (si votre ordinateur 
 
 ### 👉 Exemple de commandes utiles
 
-   Cette commande permet de voir les nodes et topics ROS2 envoyé par Ardupilot et Gazebo
+   Cette commande permet de voir les nodes et topics ROS2 envoyé par Ardupilot et Gazebo.
+   Commencer par vérifier que l'environment est sourcé:
    ```bash
    source ~/ardu_ws/install/setup.bash
-   # See the node appear in the ROS graph
+   ```
+Utiliser les commandes suivantes:
+   *See the node appear in the ROS graph*
+   ```bash
    ros2 node list
-   # See which topics are exposed by the node
+   ```
+   *See which topics are exposed by the node*
+   ```bash
    ros2 node info /ardupilot_dds
-   # Echo a topic published from ArduPilot
+   ```
+   *Echo a topic published from ArduPilot*
+   ```bash
    ros2 topic echo /ap/geopose/filtered
    ```
 
