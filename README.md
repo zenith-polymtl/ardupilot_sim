@@ -12,11 +12,9 @@ Ce guide explique étape par étape comment installer les programmes requis pour
    wsl --update
    ```
 
-   ![Placeholder Image: Installation WSL](/docs/images/wsl-install.png)
-
 ## 🖥️ Installation de ROS2, Gazebo, Ardupilot et SITL pour Ardupilot 
 
-### 👉 Étape 2 : Installation du script
+### 👉 Étape 2 : Installation du script dans Ubuntu
 
    ```bash
    git clone https://github.com/zenith-polymtl/ardupilot_sim.git
@@ -25,9 +23,13 @@ Ce guide explique étape par étape comment installer les programmes requis pour
    ./install_ardupilot_ros2.sh
    ```
 
+En cas de manque de mémoire lors de l'execution du script (si votre ordinateur n'a que 8 gb de RAM), executé cette commande dans Powershell.
+   ```bash
+"[wsl2]`nmemory=8GB`nswap=16GB" | Out-File -FilePath "$env:USERPROFILE\.wslconfig" -Encoding UTF8
+   ```
 ## 🖥️ Utilisation de ROS2, Gazebo, Ardupilot et SITL pour Ardupilot 
 
-### 👉 Étape 3 : Lancer une simulation
+### 👉 Étape 3 : Lancer une simulation exemple
 
    ```bash
    cd ardu_ws
@@ -43,6 +45,7 @@ Ce guide explique étape par étape comment installer les programmes requis pour
 
 ### 👉 Exemple de commandes utiles
 
+   Cette commande permet de voir les nodes et topics ROS2 envoyé par Ardupilot et Gazebo
    ```bash
    source ~/ardu_ws/install/setup.bash
    # See the node appear in the ROS graph
