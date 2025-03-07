@@ -12,6 +12,11 @@ Ce guide explique étape par étape comment installer les programmes requis pour
    wsl --update
    ```
 
+Si votre ordinateur **à 16gb de RAM ou moins**, il est nécéssaire d'executé cette command dans Powershell, pour allouée plus de mémoire à WSL2
+   ```bash
+"[wsl2]`nmemory=8GB`nswap=16GB" | Out-File -FilePath "$env:USERPROFILE\.wslconfig" -Encoding UTF8
+   ```
+
 ## 🖥️ Installation de ROS2, Gazebo, Ardupilot et SITL pour Ardupilot 
 
 ### 👉 Étape 2 : Installation du script dans Ubuntu
@@ -23,18 +28,14 @@ Ce guide explique étape par étape comment installer les programmes requis pour
    ./install_ardupilot_ros2.sh
    ```
 
-En cas de manque de mémoire lors de l'execution du script (si votre ordinateur n'a que 8 gb de RAM), executé cette commande dans Powershell.
-   ```bash
-"[wsl2]`nmemory=8GB`nswap=16GB" | Out-File -FilePath "$env:USERPROFILE\.wslconfig" -Encoding UTF8
-   ```
+
 ## 🖥️ Utilisation de ROS2, Gazebo, Ardupilot et SITL pour Ardupilot 
 
 ### 👉 Étape 3 : Lancer une simulation exemple
 
    ```bash
    cd ardu_ws
-   source install/setup.bash
-   ros2 launch ardupilot_gz_bringup iris_runway.launch.py
+   ./run_simulation.sh
    ```
 
 ### 👉 Étape 4 : Connection via Mavproxy
