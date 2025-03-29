@@ -288,46 +288,30 @@ print_section "Setting Up Gazebo Integration"
 cd ${WORKSPACE_DIR}
 
 # Check if Gazebo integration is already imported
-if [ -d "src/ros_gz" ]; then
-    echo "Gazebo integration already imported."
-    echo "Options:"
-    echo "  1. Use existing integration"
-    echo "  2. Update existing integration"
-    echo "  3. Remove and recreate"
-    read -p "Enter choice (1/2/3): " gz_choice
-    
-    if [ "$gz_choice" = "3" ]; then
-        echo "Re-importing Gazebo integration..."
-        vcs import --input https://raw.githubusercontent.com/ArduPilot/ardupilot_gz/main/ros2_gz.repos --recursive src --force
-        gz_status=$?
-    elif [ "$gz_choice" = "2" ]; then
-        echo "Updating Gazebo integration..."
-        cd src
-        vcs pull
-        gz_status=$?
-        cd ..
-    else
-        echo "Using existing Gazebo integration..."
-        gz_status=0
-    fi
-else
-    vcs import --input https://raw.githubusercontent.com/ArduPilot/ardupilot_gz/main/ros2_gz.repos --recursive src
-    gz_status=$?
-fi
+
 
 rosdep update
-sudo apt-get update
-rosdep install --from-paths src --ignore-src -r -y
+
 check_status $gz_status "Gazebo integration setup"
 
 # Source ROS2 environment and build packages
-print_section "Building ROS2 Packages"
-source ${ROS_ROOT}/setup.bash
+
+
 cd ${WORKSPACE_DIR}
 
+print_section "Installing Gazebo"
+sudo apt-get update
+sudo apt-get install curl lsb-release gnupg -y
+sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+sudo apt-get update
+sudo apt-get install gz-harmonic -y
+rosdep install --from-paths src --ignore-src -r -y
 # Build packages with proper exit code checking 
 echo "Building ardupilot_dds_tests..."
 colcon build --packages-up-to ardupilot_dds_tests
+vcs import --input https://raw.githubusercontent.com/ArduPilot/ardupilot_gz/main/ros2_gz.repos --recursive src --force
+print_section "Building ROS2 Packages"
 build_dds_status=$?
 # Note stderr output is common and acceptable
 if [ $build_dds_status -eq 0 ]; then
@@ -336,24 +320,6 @@ else
     echo "✗ Error: ArduPilot DDS tests build failed with exit code $build_dds_status"
 fi
 
-echo "Building ardupilot_sitl..."
-colcon build --packages-up-to ardupilot_sitl
-build_sitl_status=$?
-if [ $build_sitl_status -eq 0 ]; then
-    echo "✓ Success: ArduPilot SITL build succeeded"
-else
-    echo "✗ Error: ArduPilot SITL build failed with exit code $build_sitl_status"
-fi
-
-echo "Building ardupilot_gz_bringup..."
-colcon build --packages-up-to ardupilot_gz_bringup
-build_gz_status=$?
-if [ $build_gz_status -eq 0 ]; then
-    echo "✓ Success: ArduPilot Gazebo bringup build succeeded"
-else
-    echo "✗ Error: ArduPilot Gazebo bringup build failed with exit code $build_gz_status"
-    echo "Installation may be incomplete."
-fi
 
 # Add sourcing to .bashrc if not already there
 print_section "Finalizing Setup"
